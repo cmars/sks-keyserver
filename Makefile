@@ -60,7 +60,7 @@ CAMLLIBS=unix.cma str.cma bdb.cma nums.cma bigarray.cma cryptokit.cma
 OCAMLFLAGS=$(COMMONCAMLFLAGS) -g $(CAMLLIBS)
 OCAMLOPTFLAGS=$(COMMONCAMLFLAGS) -inline 40 $(CAMLLIBS:.cma=.cmxa)
 
-EXE=sks sks_add_mail
+EXE=sks sks_add_mail sks_hash
 ALL=$(EXE) sks.8.gz
 ALL.bc=$(EXE:=.bc) sks.8.gz
 
@@ -216,6 +216,9 @@ sks_do: $(LIBS) $(ALLOBJS) sks_do.cmx
 sks_add_mail.bc: pMap.cmo pSet.cmo add_mail.cmo
 	$(OCAMLC) -o sks_add_mail.bc -g unix.cma \
 	pMap.cmo pSet.cmo add_mail.cmo
+
+sks_hash: $(LIBS) $(ALLOBJS) sks_hash.cmx
+	$(OCAMLOPT) -o sks_hash $(OCAMLOPTFLAGS) $(ALLOBJS) sks_hash.cmx
 
 sks_add_mail: $(LIBS) pMap.cmx pSet.cmx add_mail.cmx
 	$(OCAMLOPT) -o sks_add_mail unix.cmxa \
